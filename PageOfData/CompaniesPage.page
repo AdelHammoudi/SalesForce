@@ -1,0 +1,15 @@
+<apex:page controller="ControllerOfCompaniesPage" showHeader="false" sidebar="false">  
+	<apex:pageBlock>
+		<apex:pageBlockTable value="{!wrappersList}" var="item">
+				<apex:column headerValue="Description">
+            		{!item.rowDescription}
+                </apex:column>
+                <apex:column headerValue="Company 1">
+                    {!item.apple}
+                </apex:column>
+                <apex:column headerValue="Company 2">
+            		{!item.microsoft}
+                </apex:column>
+        </apex:pageBlockTable>
+	</apex:pageBlock>
+</apex:page>
