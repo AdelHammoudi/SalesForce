@@ -1,0 +1,18 @@
+<apex:page controller="ControllerOfListOfAccounts" showHeader="false" sidebar="false">
+    <apex:form >
+        <apex:pageBlock >
+            <apex:dataList value="{!checkedAccs}" var="item">
+                <apex:outputText value="{!item.name}"/>
+            </apex:dataList>
+            <apex:commandButton action="{!checkedRecords}" value="Cheked"/>
+            <apex:pageBlockTable value="{!wrappers}" var="item">
+                <apex:column headerValue="isSelected">
+                    <apex:inputCheckbox value="{!item.isSelected}"/> 
+                </apex:column>
+                <apex:column headerValue="Account Name">
+            		{!item.myAccount.name}
+                </apex:column>
+        </apex:pageBlockTable>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>
