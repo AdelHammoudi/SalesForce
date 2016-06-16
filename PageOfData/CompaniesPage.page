@@ -2,13 +2,13 @@
 	<apex:pageBlock>
 		<apex:pageBlockTable value="{!wrappersList}" var="item">
 				<apex:column headerValue="Description">
-            		{!item.rowDescription}
+            		<apex:outputText value="{!item.rowDescription}"/>
                 </apex:column>
                 <apex:column headerValue="Company 1">
-                    {!item.apple}
+                    <apex:outputText value="{!item.apple}"/>        
                 </apex:column>
                 <apex:column headerValue="Company 2">
-            		{!item.microsoft}
+                    <apex:outputText value="{!item.microsoft}"/>
                 </apex:column>
         </apex:pageBlockTable>
 	</apex:pageBlock>

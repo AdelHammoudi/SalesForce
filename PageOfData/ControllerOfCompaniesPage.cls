@@ -20,17 +20,15 @@ public with sharing class ControllerOfCompaniesPage
 
 	private List<CompaniesPageWrapper> getData()
 	{
-		createData();
 		List<CompaniesPageWrapper> wrappersList = new List<CompaniesPageWrapper>();
-		wrappersList.add(new CompaniesPageWrapper('Name', appleCompany.name, microsoftCompany.name));
-		wrappersList.add(new CompaniesPageWrapper('Work period', appleWorkPeriod.name, microsoftWorkPeriod.name));
-		wrappersList.add(new CompaniesPageWrapper('Work period start date', appleWorkPeriod.startDate, 
-													microsoftWorkPeriod.startDate));
-		wrappersList.add(new CompaniesPageWrapper('Margin ammount', appleRate.revenue, microsoftRate.revenue));
-		wrappersList.add(new CompaniesPageWrapper('Revenue ammount', appleRate.margin, microsoftRate.margin));
-		wrappersList.add(new CompaniesPageWrapper('Work period end date', appleWorkPeriod.endDate, 
-													microsoftWorkPeriod.endDate));
-		
+
+		wrappersList.add(new CompaniesPageWrapper('Name', appleCompany.getName(), microsoftCompany.getName()));
+		wrappersList.add(new CompaniesPageWrapper('Work period', appleWorkPeriod.getName(), 
+													microsoftWorkPeriod.getName()));
+		wrappersList.add(new CompaniesPageWrapper('Revenue ammount', appleRate.getRevenue(), 
+													microsoftRate.getRevenue()));
+		wrappersList.add(new CompaniesPageWrapper('Margin ammount', appleRate.getMargin(), 
+													microsoftRate.getMargin()));
 		return wrappersList;
 	}
 
@@ -51,48 +49,18 @@ public with sharing class ControllerOfCompaniesPage
 	private void createData()
 	{
 
-        appleCompany = new Company();
-		appleCompany.name = 'Apple';
-		appleCompany.id = '1';
+        appleCompany = new Company('Apple', '1');
+		microsoftCompany = new Company('Microsoft', '2');
 
-		microsoftCompany = new Company();
-        microsoftCompany.name = 'Microsoft';
-		microsoftCompany.id = '2';
+        appleOrder = new Order('Apple Order', '1', appleCompany); 
+		microsoftOrder = new Order('Microsoft Order', '2', microsoftCompany);
+       
+        appleRate = new Rate('Apple rate', '1', 5000, 10000);
+        microsoftRate = new Rate('Microsoft rate', '2', 7000, 15000);
 
-        appleOrder = new Order();
-        appleOrder.name = 'Apple Order';
-        appleOrder.id = '1';
-        appleOrder.companyId = appleCompany.id; 
-
-		microsoftOrder = new Order();
-        microsoftOrder.name = 'Apple Order';
-        microsoftOrder.id = '2';
-        microsoftOrder.companyId = microsoftCompany.id; 
-
-        appleRate = new Rate();
-        appleRate.name = 'Apple rate';
-        appleRate.id = '1';
-        appleRate.revenue = 50;
-        appleRate.margin = 100;
-
-        microsoftRate = new Rate();
-        microsoftRate.name = 'Microsoft rate';
-        microsoftRate.id = '1';
-        microsoftRate.revenue = 150;
-        microsoftRate.margin = 200;
-
-        appleWorkPeriod = new WorkPeriod(); 
-        appleWorkPeriod.name = 'Apple Work Period';
-        appleWorkPeriod.orderId = appleOrder.id;
-        appleWorkPeriod.rateId = appleRate.id;
-        appleWorkPeriod.startDate = Date.today().addDays(5);
-        appleWorkPeriod.endDate = Date.today().addDays(20);
-
-		microsoftWorkPeriod = new WorkPeriod();
-        microsoftWorkPeriod.name = 'Microsoft Work Period';
-        microsoftWorkPeriod.orderId = microsoftOrder.id;
-        microsoftWorkPeriod.rateId = microsoftRate.id;
-        microsoftWorkPeriod.startDate = Date.today().addDays(10);
-        microsoftWorkPeriod.endDate = Date.today().addDays(25);  
+        appleWorkPeriod = new WorkPeriod('Apple Work Period', '1', appleOrder, 
+        								appleRate, Date.today().addDays(-50), Date.today().addDays(-20)); 
+		microsoftWorkPeriod = new WorkPeriod('Microsoft Work Period', '2', microsoftOrder, 
+        								microsoftRate, Date.today().addDays(-30), Date.today().addDays(-10));
 	}
 }
