@@ -1,0 +1,20 @@
+<apex:page controller="ControllerCompaniesPage" showHeader="false" sidebar="false">  
+	<apex:pageBlock>
+        <apex:pageBlockTable value="{!wrappersList}" var="item">
+            <apex:column value="{!item.workPeriodName}" width="20%"/>
+            <apex:column headerValue="{!firstCompany.name}">
+                <apex:pageBlockTable value="{!item.firstCompanyWorkPeriod}" var="workPeriod"  rendered="{!item.firstCompanyIsNull}">
+                    <apex:column headerValue="Revenue Amount" value="{!workPeriod.rate.revenue}"/>
+                    <apex:column headerValue="Margin Amount" value="{!workPeriod.rate.margin}"/>
+                </apex:pageBlockTable>    
+            </apex:column>
+
+            <apex:column headerValue="{!secondCompany.name}">
+                <apex:pageBlockTable value="{!item.secondCompanyWorkPeriod}" var="workPeriod" rendered="{!item.secondCompanyIsNull}">
+                    <apex:column headerValue="Revenue Amount" value="{!workPeriod.rate.revenue}"/>
+                    <apex:column headerValue="Margin Amount" value="{!workPeriod.rate.margin}"/>
+                </apex:pageBlockTable>    
+            </apex:column>
+        </apex:pageBlockTable>
+	</apex:pageBlock>
+</apex:page>
