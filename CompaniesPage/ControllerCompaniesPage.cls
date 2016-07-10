@@ -17,5 +17,3 @@ public with sharing class ControllerCompaniesPage
         accountList = new List<Account>([SELECT Name, Id FROM Account]);
     }
 }
-
-	

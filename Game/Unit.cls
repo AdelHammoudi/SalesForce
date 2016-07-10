@@ -10,15 +10,20 @@ public class Unit {
     private Integer hp;
     private Integer dmgMin;
     private Integer dmgMax;
+    private KickBlockTypes kickType;
+    private KickBlockTypes blockType;
+
+    public Unit(Unit__c unit)
+    {
+        name = unit.name;
+        hp = Integer.valueOf(unit.Hp__c);
+        dmgMin = Integer.valueOf(unit.Min_Damage__c);
+        dmgMax = Integer.valueOf(unit.Max_Damage__c);
+    }
 
     public String getName()
     {
         return name;
-    }
-
-    public void setName(String name)
-    {
-        this.name = name;
     }
 
     public Integer getHp()
@@ -36,34 +41,48 @@ public class Unit {
         return dmgMin;
     }
 
-    public void setDmgMin(Integer dmgMin)
-    {
-        this.dmgMin = dmgMin;
-    }
-
     public Integer getDmgMax()
     {
-        return DmgMax;
+        return dmgMax;
     }
 
-    public void setDmgMax(Integer dmgMax)
+    public KickBlockTypes getKickType()
     {
-        this.dmgMax = dmgMax;
+        return kickType;
+    }
+
+    public void setKickType(KickBlockTypes kickType)
+    {
+        this.kickType = kickType;
+    }
+
+    public KickBlockTypes getBlockType()
+    {
+        return blockType;
+    }
+
+    public void setBlockType(KickBlockTypes blockType)
+    {
+        this.blockType = blockType;
     }
 
     /**
      * Return integer which depend on type of the block and type of the kick.
-     * @param blockType type of the block
-     * @see  #getBlockType()
-     * @see  #getKickType()
+     * 
+     * @param Unit unit will be kicked
+     * @see  #getKickBlockType()
      */
-    public Integer getKick(KickBlockTypes blockType)
+    public Integer getKick(Unit unit)
     {
-        KickBlockTypes kickType = getKickType();
-        Integer kick;
-        if (kickType == blockType)
+        if(kickType == null || unit.getBlockType() == null)
         {
-            kick = (Integer)(Math.abs(Math.random() * (this.dmgMin - this.dmgMax + 1) + this.dmgMin));
+            kickType = getKickBlockType();
+            unit.setBlockType(getKickBlockType());
+        }
+        Integer kick;
+        if (kickType != unit.getBlockType())
+        {
+            kick = (Integer)(Math.floor(Math.random() * (this.dmgMax - this.dmgMin + 1) + this.dmgMin));
         }
         else
         {
@@ -73,60 +92,32 @@ public class Unit {
     }
 
     /**
-     * Return random KickBlockTypes enum with probability: HEAD - 40%, CHEST - 30%, ARMS - 15%, LEGS - 15%.
+     * Return random KickBlockTypes enum with probability: HEAD - 25%, CHEST - 25%, ARMS - 25%, LEGS - 25%.
      */
-    public KickBlockTypes getBlockType()
+    public KickBlockTypes getKickBlockType()
     {
-        KickBlockTypes blockType;
-        Integer i = (Integer)(Math.random()*100);
-        if (i < 40)
+        KickBlockTypes kickBlockType;
+        Integer i = (Integer)(Math.random()*4);
+        if (i == 0)
         {
-            blockType = KickBlockTypes.HEAD;
+            kickBlockType = KickBlockTypes.HEAD;
             
         }
         else 
-            if (i <70)
+            if (i == 1)
             {
-                blockType = KickBlockTypes.CHEST;
+                kickBlockType = KickBlockTypes.CHEST;
             }
             else 
-                if (i < 85)
+                if (i == 2)
                 {
-                    blockType = KickBlockTypes.ARMS;
+                    kickBlockType = KickBlockTypes.ARMS;
                 }
                 else
                 {
-                    blockType = KickBlockTypes.LEGS;
+                    kickBlockType = KickBlockTypes.LEGS;
                 }
-        return blockType;
-    }
-
-    /**
-     *Return random KickBlockTypes enum with probability: HEAD - 40%, CHEST - 30%, ARMS - 15%, LEGS - 15%.
-     */
-    public KickBlockTypes getKickType()
-    {
-        KickBlockTypes kickType;
-        Integer i = (Integer)(Math.random()*100);
-        if (i < 40)
-        {
-            kickType = KickBlockTypes.HEAD;
-        }
-        else 
-            if (i < 70)
-            {
-                 kickType = KickBlockTypes.CHEST;
-            }
-            else 
-                if (i < 85)
-                {
-                    kickType = KickBlockTypes.ARMS;
-                }
-                else
-                {
-                    kickType = KickBlockTypes.LEGS;
-                }
-        return kickType;
+        return kickBlockType;
     }
 
     /**
@@ -136,7 +127,9 @@ public class Unit {
     {
     	boolean isLive  = true;
     	if (this.hp <= 0)
+        {
     		isLive = false;
+        }
     	return isLive;
     }
 }
